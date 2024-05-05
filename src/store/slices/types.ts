@@ -1,15 +1,6 @@
 export interface IEntity {
-  id: number;
+  id: string;
   meta: { type: string };
-}
-
-export interface IValue {
-  title: string;
-  english_title: string;
-  short_title: string;
-  english_short_title: string;
-  trade_symbol: string;
-  english_trade_symbol: string;
 }
 
 export interface IMeta {
@@ -20,22 +11,58 @@ export interface IMeta {
   type: string;
 }
 
-export interface IData {
+// Asset
+
+export interface IAsset {
   id: number;
-  entity: IEntity;
+  value: IAssetValue;
   type: string;
-  value: IValue;
+  entity: IEntity;
   meta: IMeta;
+
+  trades: ITrade[];
 }
 
-export interface ITrades extends IData {
-  assets: IData[];
+export interface IAssetValue {
+  title: string;
+  english_title: string;
+  short_title: string;
+  english_short_title: string;
+  trade_symbol?: string;
+  english_trade_symbol: string;
 }
 
 export interface IAssetState {
-  data: IData[];
+  data: IAsset[];
 }
 
-export interface ITradeState {
-  data: ITrades[];
+// Trade
+
+export interface ITrade {
+  id: number;
+  value: ITradeValue;
+  type: string;
+  entity: IEntity;
+  meta: IMeta;
+}
+
+export interface ITradeValue {
+  start_date_time: string;
+  end_date_time: string;
+  instrument: {
+    id: number;
+    meta: {
+      type: string;
+    };
+  };
+  close_price: number;
+  close_price_change: number;
+  close_price_change_percent: number;
+  open_price: number;
+  low_price: number;
+  high_price: number;
+  trade_count: number;
+  buyer_count: number;
+  volume: number;
+  value: number;
 }

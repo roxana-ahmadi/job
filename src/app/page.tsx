@@ -1,24 +1,21 @@
-import { Suspense } from "react";
 import { getTrades } from "@/apis/getTrades";
-import HomePageTable from "@/components/HomePageTable";
 import { getAssets } from "@/apis/getAssets";
+import AssetsList from "@/components/AssetsList";
 
-export default async function Home() {
+export default async function HomeNextPage() {
   const trades = await getTrades();
   const assets = await getAssets();
 
-  if (!trades || !assets) return <div>error</div>;
+  if (!trades || !assets) return <div>Error</div>;
 
-  trades.forEach(trade => {
-    const foundAssets = assets.filter(asset => asset.id === trade.entity.id);
-    trade.assets = foundAssets;
+  assets.forEach(asset => {
+    const foundTrades = trades.filter(trade => asset.entity.id === trade.entity.id);
+    asset.trades = foundTrades;
   });
 
   return (
     <main className="">
-      <Suspense>
-        <HomePageTable data={trades} />
-      </Suspense>
+      <AssetsList data={assets} />
     </main>
   );
 }
